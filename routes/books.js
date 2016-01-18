@@ -5,7 +5,7 @@ var knex = require('../db/knex');
 function Books() {
   return knex('books');
 }
-
+/*get books on main page*/
 router.get('/books', function(req, res, next) {
   Books().select().then(function (books) {
     res.render('books/index', {books: books});
@@ -17,9 +17,15 @@ router.post('/books', function (req, res, next) {
     res.redirect('/books');
   })
 })
-
+/*add a new book*/
 router.get('/books/new', function(req, res, next) {
   res.render('books/new');
+});
+
+router.post('/books/new', function (req, res, next){
+  Books().insert(req.body).then(function (results){
+    res.redirect('/books');
+  });
 });
 
 router.get('/books/show', function(req, res, next) {
